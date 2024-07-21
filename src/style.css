@@ -23,14 +23,34 @@ html, body {
     align-items: center;
     
 }
-.attributeApp{
+#coinApp{
+    display: flex;
     width: 90%;
-    max-width: 700px;
+    max-width: 400px;
     background: #fff;
-    margin: 50px 50px 50px 50px;
-    padding: 40px 30px 70px;
+    margin: 50px auto 50px 20px;
+    padding: 20px 20px 20px 20px;
     border-radius: 10px;
     align-items: center;
+    font-size: 17px;
+    height: fit-content;
+}
+
+#coin{
+    max-height: 30px;
+    padding-right: 20px;
+}
+
+#attributeApp{
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    margin: 50px auto 50px 20px;
+    padding: 20px 20px 20px 20px;
+    border-radius: 10px;
+    align-items: center;
+    font-size: 17px;
+    height: fit-content;
 }
 
 .todoApp h2{
