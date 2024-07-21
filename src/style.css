@@ -10,6 +10,7 @@ html, body {
     padding: 10px;
     margin: 0px 0px 0px 0px;
     min-width: 100%;
+    max-height: 100%
 }
 
 .todoApp{
@@ -21,6 +22,15 @@ html, body {
     border-radius: 10px;
     align-items: center;
     
+}
+.attributeApp{
+    width: 90%;
+    max-width: 700px;
+    background: #fff;
+    margin: 50px 50px 50px 50px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+    align-items: center;
 }
 
 .todoApp h2{
@@ -63,6 +73,9 @@ html, body {
     width: 44px;
     height: 44px;
     align-items: center;
+}
+#list-container{
+    padding: 0px;
 }
 ul li{
     list-style: none;
@@ -110,4 +123,11 @@ ul li span{
 
 ul li span:hover{
     background: #edeef0;
+}
+
+#turtle-svg{
+    max-width: 80%;
+    max-height: 500px;
+    padding: 20px 20px 20px 20px;
+
 }
