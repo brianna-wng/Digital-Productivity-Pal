@@ -41,8 +41,8 @@ html, body {
     padding-right: 20px;
 }
 
-#attributeApp{
-    width: 90%;
+.attributeApp{
+    width: 80%;
     max-width: 400px;
     background: #fff;
     margin: 50px auto 50px 20px;
@@ -51,6 +51,32 @@ html, body {
     align-items: center;
     font-size: 17px;
     height: fit-content;
+}
+.bar{
+    background: rgb(203, 203, 203);
+    border-radius: 20px;
+    height: 20px;
+    width: 100%;
+    margin-left: 5px;
+
+}
+#happApp{
+    display: flex;
+    margin: auto 20px auto 20px;
+    align-items: center;
+    cursor: pointer;
+}
+
+#p1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(107, 102, 234);
+    border-radius: 30px;
+    color: white;
+    width: 0;
+    transition: 1s ease 0.3s;
+    height: 20px;
 }
 
 .todoApp h2{
