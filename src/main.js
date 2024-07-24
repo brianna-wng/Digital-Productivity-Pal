@@ -2,12 +2,30 @@ let addToDoButton = document.getElementById('addToDo');
 let listContainer = document.getElementById('list-container');
 let inputField = document.getElementById('inputField');
 let coinCount = document.getElementById('coinCount');
-let coins = 0;
+//let coins = 0;
 let happApp = document.getElementById('happApp');
+let foodApp = document.getElementById('foodApp');
+let sleepApp = document.getElementById('sleepApp');
 
-const progress = document.getElementById('p1');
-let percent = 0;
+let turtle = document.getElementById('turtle');
 
+const p1 = document.getElementById('p1');
+const p2 = document.getElementById('p2');
+const p3 = document.getElementById('p3');
+
+let percent1 = 50;
+let percent2 = 50;
+let percent3 = 50;
+
+let min_cost = 1;
+let boost = 10;
+
+
+
+function time(){
+    let dt = new Date();
+    document.getElementById("curr-time").innerHTML = (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+}
 function addTask(){
     if(inputField.value == "") {
         alert("You must write something");
@@ -24,6 +42,11 @@ function addTask(){
     saveData();
 
 }
+inputField.addEventListener("keyup", function(e){
+    if (e.key === 'Enter' || e.keyCode === 13){
+        addTask();
+    }
+}, false);
 function updateCoins(num){
     coins = coins + num
     coinCount.innerHTML = coins;
@@ -31,10 +54,24 @@ function updateCoins(num){
 
 }
 
-function changeWidth(){
-    percent = percent + 10
-    progress.style.width = `${percent}%`;
-    progress.innerText = `${percent}%`;
+function changeWidth1(num){
+    percent1 += num;
+    return percent1;
+}
+
+function changeWidth2(num){
+    percent2 += num;
+    return percent2;
+}
+
+function changeWidth3(num){
+    percent3 += num;
+    return percent3;
+}
+
+function updateWidth(att, percent){
+    att.style.width = `${percent}%`;
+    att.innerText = `${percent}%`;
 }
 listContainer.addEventListener("click", function(e){
     if(e.target.tagName === "LI"){
@@ -56,30 +93,84 @@ listContainer.addEventListener("click", function(e){
 }, false);
 
 happApp.addEventListener("click", function(e) {
-    if(coins >= 100){
-        updateCoins(-100);
-        changeWidth();
+    if(coins >= min_cost){
+        console.log(parseInt(p1.style.width));
+        if(parseInt(p1.style.width) + boost > 100){
+            alert("your pet is very happy already")
+        }else{
+            updateCoins(-min_cost);
+            updateWidth(p1, changeWidth1(10));
+        }
     }else{
         alert("you don't have enough coins!");
     }
+    saveData();
 }, false);
 
+foodApp.addEventListener("click", function(e) {
+    if(coins >= min_cost){
+        if(parseInt(p2.style.width) + boost > 100){
+            alert("your pet is very full already")
+        }else{
+            updateCoins(-1);
+            updateWidth(p2, changeWidth2(10));
+        }
+    }else{
+        alert("you don't have enough coins!");
+    }
+    saveData();
+}, false);
 
+sleepApp.addEventListener("click", function(e) {
+    if(coins >= min_cost){
+        if(parseInt(p3.style.width) + boost > 100){
+            alert("your pet is very rested already")
+        }else{
+            updateCoins(-1);
+            updateWidth(p3, changeWidth3(10));
+        }
+    }else{
+        alert("you don't have enough coins!");
+    }
+    saveData();
+}, false);
+
+turtle.addEventListener("click", function(e){
+    turtle.classList.toggle("move");
+    console.log(turtle.classList);
+}, false);
+
+function loseAtt(){
+    if(percent1 > 0){
+        percent1 -= 1;
+        updateWidth(p1, percent1);
+    }
+    if(percent2 > 0){
+        percent2 -= 1;
+        updateWidth(p2, percent2);
+    }
+    if(percent3 > 0){
+        percent3 -= 1;
+        updateWidth(p3, percent3);
+    }
+}
 function saveData(){
     localStorage.setItem("tasks", listContainer.innerHTML);
     localStorage.setItem("coins", coinCount.innerHTML);
-    //console.log("saved")
-    //console.log(coins.innerHTML);
+
 
 }
 
 function showData(){
     listContainer.innerHTML = localStorage.getItem("tasks");
     coinCount.innerHTML = localStorage.getItem("coins");
-    //console.log("got")
-    //console.log(coins.innerHTML);
+    coins = parseInt(coinCount.innerHTML)
 
 }
-
 showData();
-console.log(progress.style.width);
+updateWidth(p1, percent1);
+updateWidth(p2, percent2);
+updateWidth(p3, percent3);
+
+setInterval(time, 1000);
+setInterval(loseAtt, 60000);
