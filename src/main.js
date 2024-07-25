@@ -1,6 +1,7 @@
 let addToDoButton = document.getElementById('addToDo');
 let listContainer = document.getElementById('list-container');
 let inputField = document.getElementById('inputField');
+let estTime = document.getElementById('inputTime');
 let coinCount = document.getElementById('coinCount');
 //let coins = 0;
 let happApp = document.getElementById('happApp');
@@ -137,7 +138,6 @@ sleepApp.addEventListener("click", function(e) {
 
 turtle.addEventListener("click", function(e){
     turtle.classList.toggle("move");
-    console.log(turtle.classList);
 }, false);
 
 function loseAtt(){

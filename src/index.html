@@ -125,12 +125,16 @@
                         <div class="currTime" id="curr-time">
                         </div>
                         <h2> to do list</h2>
-                        <div class="row">
                             <div class="taskInput">
-                                <input id = "inputField" type = "text" placeholder="Add a task">
-                                <button onclick = "addTask()" id = "addToDo">+</button>
+                                <div class="row" id="row-in">
+                                    <input id = "inputField" type = "text" placeholder="Add a task">
+                                    <button onclick = "addTask()" id = "addToDo">+</button>
+                                </div>
+                                <div class="row" id="row-in">
+                                    <input id = "inputTime" type = "number" placeholder="Estimated time">                            
+                           
+                                </div>
                             </div>
-                        </div>
                         <ul id = "list-container">
                         </ul>
                     </div>
