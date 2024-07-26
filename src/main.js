@@ -1,9 +1,8 @@
 let addToDoButton = document.getElementById('addToDo');
 let listContainer = document.getElementById('list-container');
 let inputField = document.getElementById('inputField');
-let estTime = document.getElementById('inputTime');
+let inputTime = document.getElementById('inputTime');
 let coinCount = document.getElementById('coinCount');
-//let coins = 0;
 let happApp = document.getElementById('happApp');
 let foodApp = document.getElementById('foodApp');
 let sleepApp = document.getElementById('sleepApp');
@@ -20,6 +19,7 @@ let percent3 = 50;
 
 let min_cost = 1;
 let boost = 10;
+let totalTime = 0;
 
 
 
@@ -27,19 +27,43 @@ function time(){
     let dt = new Date();
     document.getElementById("curr-time").innerHTML = (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
 }
+
+function getEstTime(){
+    let currDT = new Date();
+    currDT.setMinutes(currDT.getMinutes() + totalTime);
+    document.getElementById("est-time").innerHTML = "Est. Time of Completion: " + (("0"+currDT.getHours()).slice(-2)) +":"+ (("0"+currDT.getMinutes()).slice(-2));
+
+}
+function toggleInput(){
+    let taskInput = document.getElementById("task-input");
+    let but = document.getElementById("add-task");
+    if(taskInput.style.display == 'block'){
+        taskInput.style.display = 'none';
+        but.style.display = 'block';
+    }else{
+        taskInput.style.display = 'block';
+        but.style.display = 'none';
+    }
+    console.log(taskInput.style.display);
+}
 function addTask(){
-    if(inputField.value == "") {
+    if(inputField.value == "" || inputTime.value == "") {
         alert("You must write something");
     }
     else{
         let li = document.createElement("li");
-        li.innerHTML = inputField.value;
+        li.innerHTML = inputField.value +" (" + inputTime.value + " min)";
+        totalTime += parseInt(inputTime.value);
+        console.log(totalTime);
         listContainer.appendChild(li);
         let span = document.createElement("span");
         span.innerHTML = "\u00d7";
         li.appendChild(span);
+        toggleInput();
     }
+    getEstTime();
     inputField.value = "";
+    inputTime.value = "";
     saveData();
 
 }
@@ -77,11 +101,18 @@ function updateWidth(att, percent){
 listContainer.addEventListener("click", function(e){
     if(e.target.tagName === "LI"){
         e.target.classList.toggle("checked");
+        taskText = e.target.innerHTML;
+        timeToCoins = parseInt((taskText.split("(")[1]).split(" ")[0]);
         if(e.target.classList == "checked"){
-            updateCoins(50);
+            updateCoins(timeToCoins);
+            totalTime -= timeToCoins;
+            getEstTime();
         }else{
-            updateCoins(-50);
+            updateCoins(-timeToCoins);
+            totalTime += timeToCoins;
+            getEstTime();
         }
+        console.log(totalTime);
         
         saveData();
 
@@ -172,5 +203,6 @@ updateWidth(p1, percent1);
 updateWidth(p2, percent2);
 updateWidth(p3, percent3);
 
+getEstTime();
 setInterval(time, 1000);
 setInterval(loseAtt, 60000);
