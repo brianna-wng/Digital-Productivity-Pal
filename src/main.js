@@ -44,6 +44,8 @@ function toggleInput(){
         taskInput.style.display = 'block';
         but.style.display = 'none';
     }
+    inputField.value = "";
+    inputTime.value = "";
     console.log(taskInput.style.display);
 }
 function addTask(){
@@ -132,6 +134,7 @@ happApp.addEventListener("click", function(e) {
         }else{
             updateCoins(-min_cost);
             updateWidth(p1, changeWidth1(10));
+            updateOp();
         }
     }else{
         alert("you don't have enough coins!");
@@ -146,6 +149,8 @@ foodApp.addEventListener("click", function(e) {
         }else{
             updateCoins(-1);
             updateWidth(p2, changeWidth2(10));
+            updateOp();
+
         }
     }else{
         alert("you don't have enough coins!");
@@ -160,6 +165,7 @@ sleepApp.addEventListener("click", function(e) {
         }else{
             updateCoins(-1);
             updateWidth(p3, changeWidth3(10));
+            updateOp();
         }
     }else{
         alert("you don't have enough coins!");
@@ -184,6 +190,16 @@ function loseAtt(){
         percent3 -= 1;
         updateWidth(p3, percent3);
     }
+    updateOp();
+}
+
+function updateOp(){
+    op = Math.min(percent1, percent2, percent3);
+    if(op == 0){
+        alert("revive your pet!");
+    }
+    turtle.style.opacity = `${op}%`;
+    console.log(turtle.style.opacity);
 }
 function saveData(){
     localStorage.setItem("tasks", listContainer.innerHTML);
@@ -205,4 +221,4 @@ updateWidth(p3, percent3);
 
 getEstTime();
 setInterval(time, 1000);
-setInterval(loseAtt, 60000);
+setInterval(loseAtt, 5000);
