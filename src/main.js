@@ -93,6 +93,7 @@ function changeWidth1(num){
 
 function changeWidth2(num){
     percent2 += num;
+    console.log(percent2);
     return percent2;
 }
 
@@ -195,18 +196,13 @@ turtle.addEventListener("click", function(e){
 }, false);
 
 function loseAtt(){
-    if(percent1 > 0){
-        percent1 -= 3;
-        updateWidth(p1, percent1);
-    }
-    if(percent2 > 0){
-        percent2 -= 2;
-        updateWidth(p2, percent2);
-    }
-    if(percent3 > 0){
-        percent3 -= 1;
-        updateWidth(p3, percent3);
-    }
+    percent1 = Math.max(0, percent1-2);
+    updateWidth(p1, percent1);
+    percent2 = Math.max(0, percent2-3);
+    console.log(percent2)
+    updateWidth(p2, percent2);
+    percent3 = Math.max(0, percent3-1);
+    updateWidth(p3, percent3);
     updateOp();
 }
 
@@ -227,8 +223,18 @@ function saveData(){
 function showData(){
     listContainer.innerHTML = localStorage.getItem("tasks");
     coinCount.innerHTML = localStorage.getItem("coins");
-    coins = parseInt(coinCount.innerHTML);
-    totalTime = parseInt(localStorage.getItem("totalTime"));
+    if(!coinCount.innerHTML){
+        coins = 0;
+    }else{
+        coins = parseInt(coinCount.innerHTML);
+        //coins = 0;
+    }
+    if(!localStorage.getItem("totalTime")){
+        totalTime = 0;
+    }else{
+        totalTime = parseInt(localStorage.getItem("totalTime"));
+        //totalTime = 0;
+    }
     console.log(totalTime);
 
 }
@@ -239,4 +245,4 @@ updateWidth(p3, percent3);
 
 getEstTime();
 setInterval(time, 1000);
-setInterval(loseAtt, 30000);
+setInterval(loseAtt, 10000);
