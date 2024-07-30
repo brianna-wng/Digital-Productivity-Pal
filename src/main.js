@@ -13,12 +13,12 @@ const p1 = document.getElementById('p1');
 const p2 = document.getElementById('p2');
 const p3 = document.getElementById('p3');
 
-let percent1 = 50;
-let percent2 = 50;
-let percent3 = 50;
+let percent1 = 100;
+let percent2 = 100;
+let percent3 = 100;
 
-let min_cost = 1;
-let boost = 10;
+let min_cost = 10;
+let boost = 5;
 let totalTime = 0;
 
 
@@ -46,7 +46,6 @@ function toggleInput(){
     }
     inputField.value = "";
     inputTime.value = "";
-    console.log(taskInput.style.display);
 }
 function addTask(){
     if(inputField.value == "" || inputTime.value == "") {
@@ -74,10 +73,16 @@ inputField.addEventListener("keyup", function(e){
         addTask();
     }
 }, false);
+
+inputTime.addEventListener("keyup", function(e){
+    if (e.key === 'Enter' || e.keyCode === 13){
+        addTask();
+    }
+}, false);
+
 function updateCoins(num){
     coins = coins + num
     coinCount.innerHTML = coins;
-    //console.log(coinCount.innerHTML)
 
 }
 
@@ -101,6 +106,7 @@ function updateWidth(att, percent){
     att.innerText = `${percent}%`;
 }
 listContainer.addEventListener("click", function(e){
+    
     if(e.target.tagName === "LI"){
         e.target.classList.toggle("checked");
         taskText = e.target.innerHTML;
@@ -120,6 +126,13 @@ listContainer.addEventListener("click", function(e){
 
     }
     else if(e.target.tagName === "SPAN"){
+        if(e.target.parentElement.classList != "checked"){
+            taskText = e.target.parentElement.innerHTML;
+            timeToCoins = parseInt((taskText.split("(")[1]).split(" ")[0]);
+            console.log("time: "+timeToCoins);
+            totalTime -= timeToCoins;
+            getEstTime();
+        }
         e.target.parentElement.remove()
         saveData();
 
@@ -128,12 +141,11 @@ listContainer.addEventListener("click", function(e){
 
 happApp.addEventListener("click", function(e) {
     if(coins >= min_cost){
-        console.log(parseInt(p1.style.width));
         if(parseInt(p1.style.width) + boost > 100){
             alert("your pet is very happy already")
         }else{
             updateCoins(-min_cost);
-            updateWidth(p1, changeWidth1(10));
+            updateWidth(p1, changeWidth1(boost));
             updateOp();
         }
     }else{
@@ -147,8 +159,8 @@ foodApp.addEventListener("click", function(e) {
         if(parseInt(p2.style.width) + boost > 100){
             alert("your pet is very full already")
         }else{
-            updateCoins(-1);
-            updateWidth(p2, changeWidth2(10));
+            updateCoins(-min_cost);
+            updateWidth(p2, changeWidth2(boost));
             updateOp();
 
         }
@@ -163,8 +175,8 @@ sleepApp.addEventListener("click", function(e) {
         if(parseInt(p3.style.width) + boost > 100){
             alert("your pet is very rested already")
         }else{
-            updateCoins(-1);
-            updateWidth(p3, changeWidth3(10));
+            updateCoins(-min_cost);
+            updateWidth(p3, changeWidth3(boost));
             updateOp();
         }
     }else{
@@ -174,16 +186,21 @@ sleepApp.addEventListener("click", function(e) {
 }, false);
 
 turtle.addEventListener("click", function(e){
-    turtle.classList.toggle("move");
+    turtle.classList = "";
+    
+    setTimeout(function(){
+        turtle.classList = "move";
+    },50)
+
 }, false);
 
 function loseAtt(){
     if(percent1 > 0){
-        percent1 -= 1;
+        percent1 -= 3;
         updateWidth(p1, percent1);
     }
     if(percent2 > 0){
-        percent2 -= 1;
+        percent2 -= 2;
         updateWidth(p2, percent2);
     }
     if(percent3 > 0){
@@ -199,19 +216,20 @@ function updateOp(){
         alert("revive your pet!");
     }
     turtle.style.opacity = `${op}%`;
-    console.log(turtle.style.opacity);
 }
 function saveData(){
     localStorage.setItem("tasks", listContainer.innerHTML);
     localStorage.setItem("coins", coinCount.innerHTML);
-
+    localStorage.setItem("totalTime", totalTime);
 
 }
 
 function showData(){
     listContainer.innerHTML = localStorage.getItem("tasks");
     coinCount.innerHTML = localStorage.getItem("coins");
-    coins = parseInt(coinCount.innerHTML)
+    coins = parseInt(coinCount.innerHTML);
+    totalTime = parseInt(localStorage.getItem("totalTime"));
+    console.log(totalTime);
 
 }
 showData();
@@ -221,4 +239,4 @@ updateWidth(p3, percent3);
 
 getEstTime();
 setInterval(time, 1000);
-setInterval(loseAtt, 5000);
+setInterval(loseAtt, 30000);
